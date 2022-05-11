@@ -3,7 +3,7 @@ version: "3.7"
 services:
     # image project
     app:
-        container_name: larafood
+        container_name: larafood-laravel-9
         build:
             context: .
             dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
         depends_on:
             - redis
         networks:
-            - laravel
+            - laravel-9
 
     # nginx
     nginx:
@@ -28,7 +28,7 @@ services:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - laravel
+            - laravel-9
 
     # db mysql
     mysql:
@@ -45,7 +45,7 @@ services:
         ports:
             - "3388:3306"
         networks:
-            - laravel
+            - laravel-9
 
     # queue
     queue:
@@ -59,15 +59,15 @@ services:
             - redis
             - app
         networks:
-            - laravel
+            - laravel-9
 
     # redis
     redis:
         container_name: larafood-redis
         image: redis:latest
         networks:
-            - laravel
+            - laravel-9
 
 networks:
-    laravel:
+    laravel-9:
         driver: bridge
