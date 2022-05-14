@@ -3,6 +3,8 @@
 @section('title', 'Editar Plano')
 
 @section('content_header')
+    {{ Breadcrumbs::render('plans.edit', $plan->name) }}
+
     <h1>Editar Plano</h1>
 @stop
 

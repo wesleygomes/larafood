@@ -11,6 +11,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+
+            @include('admin.includes.alerts')
+
             <form action="{{ route('plans.store') }}" method="POST" class="form">
                 @csrf
                 <div class="mb-3">

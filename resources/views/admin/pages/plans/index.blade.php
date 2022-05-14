@@ -4,7 +4,6 @@
 
 @section('content_header')
     {{ Breadcrumbs::render('plans') }}
-
     <h1>Planos <a href="{{ route('plans.create') }}" class="btn btn-secondary">ADD</a></h1>
 @stop
 
@@ -16,6 +15,9 @@
         <div class="card-body">
 
             @if ($plans->count() > 0)
+            
+                @include('admin.includes.alerts')
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -28,7 +30,7 @@
                         @foreach ($plans as $plan)
                             <tr>
                                 <td>{{ $plan->name }}</td>
-                                <td>{{ $plan->price }}</td>
+                                <td>R$ {{ number_format($plan->price, 2, ',', '.') }}</td>
                                 <td style="width=10px;">
                                     <a href="{{ route('plans.edit', $plan->url) }}" class="btn btn-info">Edit</a>
                                     <a href="{{ route('plans.show', $plan->url) }}" class="btn btn-warning">VER</a>

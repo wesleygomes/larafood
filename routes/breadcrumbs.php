@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Plan;
 use Diglactic\Breadcrumbs\Breadcrumbs;
-use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
 // Breadcrumbs::for('admin', function (BreadcrumbTrail $trail) {
@@ -10,18 +8,24 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 // });
 
 // Planos
-Breadcrumbs::for('plans', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('plans', function ($trail) {
     $trail->push('Planos', route('plans.index'));
 });
 
 // Planos create
-Breadcrumbs::for('plans.create', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('plans.create', function ($trail) {
     $trail->parent('plans');
-    $trail->push('Novo Plano', route('plans.create'));
+    $trail->push('Cadastrar', route('plans.create'));
 });
 
 // Planos show
-Breadcrumbs::for('plans.show', function (BreadcrumbTrail $trail, $name) {
+Breadcrumbs::for('plans.show', function ($trail, $name) {
     $trail->parent('plans');
     $trail->push($name, route('plans.show', $name));
+});
+
+// Planos edit
+Breadcrumbs::for('plans.edit', function ($trail, $name) {
+    $trail->parent('plans');
+    $trail->push('Editar: '.$name, route('plans.edit', $name));
 });

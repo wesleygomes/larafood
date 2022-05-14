@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Plan;
-use Illuminate\Contracts\Pagination\Paginator;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdatePlanFormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator as PaginationPaginator;
 use Illuminate\Support\Str;
 
 class PlanController extends Controller
@@ -26,7 +26,6 @@ class PlanController extends Controller
     public function index()
     {
         $plans = $this->repository->orderBy('id', 'DESC')->paginate();
-
         return view('admin.pages.plans.index', compact('plans'));
     }
 
@@ -43,15 +42,18 @@ class PlanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreUpdatePlanFormRequest  $request
+     * @return App\Http\Requests\StoreUpdatePlanFormRequest
      */
-    public function store(Request $request)
+    public function store(StoreUpdatePlanFormRequest $request)
     {
-
         $data = $request->all();
         $data['url'] = Str::slug($request->name);
-        $this->repository->create($data);
+
+        if ($this->repository->create($data))
+            $request->session('success', 'Plano cadastrado com sucesso!');
+
+        $request->session('error', 'Erro ao cadastar plano!');
 
         return redirect()->route('plans.index');
     }
@@ -91,11 +93,10 @@ class PlanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreUpdatePlanFormRequest  $request
+     * @return App\Http\Requests\StoreUpdatePlanFormRequest
      */
-    public function update(Request $request, $url)
+    public function update(StoreUpdatePlanFormRequest $request, $url)
     {
         $plan = $this->repository->where('url', $url)->first();
 
