@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plan;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator as PaginationPaginator;
+use Illuminate\Support\Str;
 
 class PlanController extends Controller
 {
@@ -22,7 +25,7 @@ class PlanController extends Controller
      */
     public function index()
     {
-        $plans = $this->repository->all();
+        $plans = $this->repository->orderBy('id', 'DESC')->paginate();
 
         return view('admin.pages.plans.index', compact('plans'));
     }
@@ -45,7 +48,12 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        return view();
+
+        $data = $request->all();
+        $data['url'] = Str::slug($request->name);
+        $this->repository->create($data);
+
+        return redirect()->route('plans.index');
     }
 
     /**
@@ -54,9 +62,14 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($url)
     {
-        return view('admin.pages.plans.show');
+        $plan = $this->repository->where('url', $url)->first();
+
+        if (!$plan)
+            return redirect()->back();
+
+        return view('admin.pages.plans.show', compact('plan'));
     }
 
     /**
@@ -65,9 +78,14 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($url)
     {
-        return view('admin.pages.plans.edit');
+        $plan = $this->repository->where('url', $url)->first();
+
+        if (!$plan)
+            return redirect()->back();
+
+        return view('admin.pages.plans.edit', compact('plan'));
     }
 
     /**
@@ -77,9 +95,16 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $url)
     {
-        return view();
+        $plan = $this->repository->where('url', $url)->first();
+
+        if (!$plan)
+            return redirect()->back();
+
+        $plan->update($request->all());
+
+        return redirect()->route('plans.index');
     }
 
     /**
@@ -88,8 +113,15 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($url)
     {
-        //
+        $plan = $this->repository->where('url', $url)->first();
+
+        if (!$plan)
+            return redirect()->back();
+
+        $plan->delete();
+
+        return redirect()->route('plans.index');
     }
 }
