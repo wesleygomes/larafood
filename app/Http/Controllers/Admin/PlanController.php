@@ -47,15 +47,8 @@ class PlanController extends Controller
      */
     public function store(StoreUpdatePlanFormRequest $request)
     {
-        $data = $request->all();
-        $data['url'] = Str::slug($request->name);
-
-        if ($this->repository->create($data))
-            $request->session('success', 'Plano cadastrado com sucesso!');
-
-        $request->session('error', 'Erro ao cadastar plano!');
-
-        return redirect()->route('plans.index');
+        $this->repository->create($request->all());
+        return redirect()->route('plans.index')->with('success', 'Plano Criado com Sucesso');
     }
 
     /**
@@ -105,7 +98,7 @@ class PlanController extends Controller
 
         $plan->update($request->all());
 
-        return redirect()->route('plans.index');
+        return redirect()->route('plans.index')->with('success', 'Plano Atualizado com Sucesso');
     }
 
     /**
@@ -123,6 +116,17 @@ class PlanController extends Controller
 
         $plan->delete();
 
-        return redirect()->route('plans.index');
+        return redirect()->route('plans.index')->with('success', 'Plano Deletado com Sucesso');
+        //return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso!');
+        //return redirect()->route('plans.index')->alert()->success('Title','Lorem Lorem Lorem');
+
+    }
+
+    public function search(Request $request)
+    {
+
+        $filters = $request->except('_token');
+        $plans = $this->repository->search($request->search);
+        return view('admin.pages.plans.index', compact('plans', 'filters'));
     }
 }
