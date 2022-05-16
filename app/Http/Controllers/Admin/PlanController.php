@@ -48,7 +48,7 @@ class PlanController extends Controller
     public function store(StoreUpdatePlanFormRequest $request)
     {
         $this->repository->create($request->all());
-        return redirect()->route('plans.index')->with('success', 'Plano Criado com Sucesso');
+        return redirect()->route('plans.index')->with('success', 'Plano criado com sucesso');
     }
 
     /**
@@ -98,7 +98,7 @@ class PlanController extends Controller
 
         $plan->update($request->all());
 
-        return redirect()->route('plans.index')->with('success', 'Plano Atualizado com Sucesso');
+        return redirect()->route('plans.index')->with('success', 'Plano atualizado com sucesso');
     }
 
     /**
@@ -116,7 +116,7 @@ class PlanController extends Controller
 
         $plan->delete();
 
-        return redirect()->route('plans.index')->with('success', 'Plano Deletado com Sucesso');
+        return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso');
         //return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso!');
         //return redirect()->route('plans.index')->alert()->success('Title','Lorem Lorem Lorem');
 

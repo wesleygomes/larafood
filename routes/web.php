@@ -11,15 +11,9 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
 
-    Route::any('/plans/search', [PlanController::class, 'search'])->name('plans.search');
-    Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
-    Route::get('/plans/create', [PlanController::class, 'create'])->name('plans.create');
-    Route::post('/plans', [PlanController::class, 'store'])->name('plans.store');
-    Route::put('/plans/{url}', [PlanController::class, 'update'])->name('plans.update');
-    Route::delete('/plans/{url}', [PlanController::class, 'destroy'])->name('plans.destroy');
-    Route::get('/plans/{url}/edit', [PlanController::class, 'edit'])->name('plans.edit');
-    Route::get('/plans/{url}', [PlanController::class, 'show'])->name('plans.show');
+    Route::any('plans/search', [PlanController::class, 'search'])->name('plans.search');
+    Route::resource('plans', PlanController::class);
+
+    Route::get('/', [PlanController::class, 'index'])->name('admin.index');
 });
 
-
-Route::get('/admin', [PlanController::class, 'index'])->name('admin.index');

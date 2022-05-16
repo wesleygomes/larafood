@@ -26,7 +26,7 @@ class StoreUpdatePlanFormRequest extends FormRequest
         $roles = [
             'name' => ['required', 'min:5', 'string', 'max:255','unique:plans'],
             'price' => ['required'],
-            'description' => ['required', 'max:15']
+            'description' => ['required', 'max:255']
         ];
 
         return $roles;
