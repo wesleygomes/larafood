@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', "Detalhes do plano {$plan->name}")
+@section('title', "Plano {$plan->name}")
 
 @section('content_header')
     {{ Breadcrumbs::render('plans.show', $plan->name) }}
@@ -26,7 +26,7 @@
                 </li>
             </ul>
 
-            {{-- @include('admin.includes.alerts') --}}
+            @include('admin.includes.alerts')
 
             <form action="{{ route('plans.destroy', $plan->url) }}" method="POST">
                 @csrf

@@ -114,6 +114,12 @@ class PlanController extends Controller
         if (!$plan)
             return redirect()->back();
 
+        if ($plan->details->count() > 0) {
+            return redirect()
+                ->back()
+                ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
+        }
+
         $plan->delete();
 
         return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso');

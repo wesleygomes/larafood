@@ -21,7 +21,6 @@ class Plan extends Model
         return $this->hasMany(DetailPlan::class);
     }
 
-
     public function search($filter = null)
     {
 

@@ -23,12 +23,12 @@ class StoreUpdatePlanFormRequest extends FormRequest
      */
     public function rules()
     {
-        $roles = [
-            'name' => ['required', 'min:5', 'string', 'max:255','unique:plans'],
-            'price' => ['required'],
-            'description' => ['required', 'max:255']
-        ];
+        $url = $this->segment(3);
 
-        return $roles;
+        return [
+            'name' => "required|min:3|max:255|unique:plans,name,{$url},url",
+            'description' => 'nullable|min:3|max:255',
+            'price' => "required|regex:/^\d+(\.\d{1,2})?$/",
+        ];
     }
 }
