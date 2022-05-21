@@ -1,30 +1,30 @@
 @extends('adminlte::page')
 
-@section('title', 'Planos')
+@section('title', 'Permissões')
 
 @section('content_header')
-    {{ Breadcrumbs::render('plans') }}
-    <h1>Planos <a href="{{ route('plans.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> ADICIONAR NOVO PLANO</a></h1>
+    {{ Breadcrumbs::render('permissions') }}
+    <h1>Permissão <a href="{{ route('permissions.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> ADICIONAR NOVA PERMISSÃO</a>
+    </h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <form action="{{ route('plans.search') }}" method="POST" class="form form-inline">
+            <form action="#" method="POST" class="form form-inline">
                 @csrf
                 <div class="mb-3 mr-1">
-                    <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
-                        name="search" placeholder="Nome">
+                    <input type="text" class="form-control" id="search" value="" name="search" placeholder="Nome">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
-                    <a href="{{ route('plans.index') }}" class="btn btn-info">Limpar</a>
+                    <a href="#" class="btn btn-info">Limpar</a>
                 </div>
             </form>
         </div>
         <div class="card-body">
 
-            @if ($plans->count() > 0)
+            @if ($permissions->count() > 0)
 
                 @include('admin.includes.alerts')
 
@@ -32,20 +32,17 @@
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
-                            <th scope="col">Preço</th>
                             <th scope="col" width="290">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($plans as $plan)
+                        @foreach ($permissions as $permission)
                             <tr>
-                                <td>{{ $plan->name }}</td>
-                                <td>R$ {{ number_format($plan->price, 2, ',', '.') }}</td>
+                                <td>{{ $permission->name }}</td>
                                 <td style="width=10px;">
-                                    <a href="{{ route('details.plan.index', $plan->url) }}" class="btn btn-primary"><i class="fas fa-list-alt"></i> Detalhes</a>
-                                    <a href="{{ route('plans.edit', $plan->url) }}" class="btn btn-info"><i
+                                    <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-info"><i
                                             class="fas fa-pen"></i> Edit</a>
-                                    <a href="{{ route('plans.show', $plan->url) }}" class="btn btn-warning"><i
+                                    <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-warning"><i
                                             class="fas fa-eye"></i> VER</a>
                                 </td>
                             </tr>
@@ -54,15 +51,15 @@
                 </table>
             @else
                 <div>
-                    <b>Nenhum plano cadastrado.</b>
+                    <b>Nenhuma permissão cadastrada.</b>
                 </div>
             @endif
         </div>
         <div class="card-footer">
             @if (isset($filters))
-                {{ $plans->appends($filters)->links() }}
+                {{ $permissions->appends($filters)->links() }}
             @else
-                {{ $plans->links() }}
+                {{ $permissions->links() }}
             @endif
         </div>
     </div>

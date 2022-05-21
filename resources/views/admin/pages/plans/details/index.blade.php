@@ -6,7 +6,7 @@
 
     {{ Breadcrumbs::render('details.plan.index', $plan->url) }}
 
-    <h1>Detalhes <a href="{{ route('details.plan.create', $plan->url) }}" class="btn btn-secondary"><i class="fas fa-plus"></i> ADD</a></h1>
+    <h1>Detalhes <a href="{{ route('details.plan.create', $plan->url) }}" class="btn btn-success"><i class="fas fa-plus"></i> ADD</a></h1>
 @stop
 
 @section('content')

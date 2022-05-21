@@ -24,6 +24,9 @@
                 <li>
                     <strong>Descrição: </strong> {{ $plan->description }}
                 </li>
+                <li>
+                    <strong>date: </strong> {{ $plan->created_at }}
+                </li>
             </ul>
 
             @include('admin.includes.alerts')

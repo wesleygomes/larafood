@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ACL\PermissionController;
+use App\Http\Controllers\Admin\ACL\ProfileController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use Illuminate\Support\Facades\Route;
@@ -12,12 +14,26 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
 
-/**
- * Route Detais Plan
- */
 
-    
-    
+    /**
+     * Route Premissions
+     */
+
+    Route::resource('permissions', PermissionController::class);
+
+
+    /**
+     * Route Profiles
+     */
+
+    Route::resource('profiles', ProfileController::class);
+
+
+
+    /**
+     * Route Detais Plan
+     */
+
     Route::delete('plans/{url}/details/{idDetail}', [DetailPlanController::class, 'destroy'])->name('details.plan.destroy');
     Route::get('plans/{url}/details/create', [DetailPlanController::class, 'create'])->name('details.plan.create');
     Route::get('plans/{url}/details/{idDetail}', [DetailPlanController::class, 'show'])->name('details.plan.show');

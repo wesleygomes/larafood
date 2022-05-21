@@ -30,7 +30,7 @@ class DetailPlanController extends Controller
             return redirect()->back();
         }
 
-        $details = $plan->details()->paginate();
+        $details = $plan->details()->orderBy('id', 'DESC')->paginate();
 
 
         return view('admin.pages.plans.details.index', compact('plan', 'details'));
@@ -120,7 +120,7 @@ class DetailPlanController extends Controller
         }
 
         $detail->update($request->all());
-        
+
         return redirect()->route('details.plan.index', $plan->url)->with('success', 'Detalhe atualizado com sucesso');
 
     }
@@ -139,7 +139,7 @@ class DetailPlanController extends Controller
         if (!$plan || !$detail) {
             return redirect()->back();
         }
-        
+
         $detail->delete();
 
         return redirect()

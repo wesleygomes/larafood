@@ -16,6 +16,8 @@ class Plan extends Model
         'description'
     ];
 
+    //protected $dateFormat = 'd-m-Y H:i:s';
+
     public function details()
     {
         return $this->hasMany(DetailPlan::class);
