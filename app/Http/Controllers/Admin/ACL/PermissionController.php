@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\ACL;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdatePermissionFormRequest;
 use App\Models\Permission;
-use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -41,10 +41,10 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreUpdatePermissionFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdatePermissionFormRequest $request)
     {
         if (!$this->repository->create($request->all())) {
             return redirect()->back()->with('error', 'Não foi possivel salvar a permissão');
@@ -90,11 +90,11 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreUpdatePermissionFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdatePermissionFormRequest $request, $id)
     {
         $permission = $this->repository->find($id);
 
