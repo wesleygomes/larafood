@@ -13,4 +13,22 @@ class Permission extends Model
         'name',
         'description'
     ];
+
+    public function search($filter = null)
+    {
+
+        $results = $this->where('name', 'LIKE', "%{$filter}%")
+            ->orWhere('description', 'LIKE', "%{$filter}%")
+            ->paginate();
+
+        return $results;
+    }
+
+    /**
+     * Get Profile
+     */
+    public function profiles()
+    {
+        return $this->belongsToMany(Profile::class);
+    }
 }

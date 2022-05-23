@@ -11,14 +11,14 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <form action="#" method="POST" class="form form-inline">
+            <form action="{{ route('profiles.search') }}" method="POST" class="form form-inline">
                 @csrf
                 <div class="mb-3 mr-1">
-                    <input type="text" class="form-control" id="search" value="" name="search" placeholder="Nome">
+                    <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}" name="search" placeholder="Perfil">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
-                    <a href="#" class="btn btn-info">Limpar</a>
+                    <a href="{{ route('profiles.index') }}" class="btn btn-info">Limpar</a>
                 </div>
             </form>
         </div>
@@ -44,6 +44,8 @@
                                             class="fas fa-pen"></i> Edit</a>
                                     <a href="{{ route('profiles.show', $profile->id) }}" class="btn btn-warning"><i
                                             class="fas fa-eye"></i> VER</a>
+                                    <a href="{{ route('profiles.permissions', $profile->id) }}" class="btn btn-warning"><i
+                                            class="fas fa-lock"></i></a>
                                 </td>
                             </tr>
                         @endforeach

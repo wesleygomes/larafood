@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\ACL;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePermissionFormRequest;
 use App\Models\Permission;
+use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -128,5 +129,12 @@ class PermissionController extends Controller
         $permission->delete();
 
         return redirect()->route('permissions.index')->with('success', 'Permissão deletada com sucesso');
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->except('_token');
+        $permissions = $this->repository->search($request->search);
+        return view('admin.pages.permissions.index', compact('permissions', 'filters'));
     }
 }

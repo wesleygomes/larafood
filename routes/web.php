@@ -16,9 +16,17 @@ Route::prefix('admin')->group(function () {
 
 
     /**
+     * Route Permission x Profile
+     */
+
+    Route::any('profiles/{id}/permissions', [PermissionProfileController::class, 'profiles'])->name('profiles.permissions');
+
+
+    /**
      * Route Premissions
      */
 
+    Route::any('permissions/search', [PermissionController::class, 'search'])->name('permissions.search');
     Route::resource('permissions', PermissionController::class);
 
 
@@ -26,6 +34,7 @@ Route::prefix('admin')->group(function () {
      * Route Profiles
      */
 
+    Route::any('profiles/search', [ProfileController::class, 'search'])->name('profiles.search');
     Route::resource('profiles', ProfileController::class);
 
 
