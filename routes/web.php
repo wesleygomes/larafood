@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ACL\PermissionController;
+use App\Http\Controllers\Admin\ACL\PermissionProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
 use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
@@ -19,7 +20,10 @@ Route::prefix('admin')->group(function () {
      * Route Permission x Profile
      */
 
-    Route::any('profiles/{id}/permissions', [PermissionProfileController::class, 'profiles'])->name('profiles.permissions');
+    Route::post('profiles/{id}/permissions/attach', [PermissionProfileController::class, 'attach'])->name('profiles.permissions.attach');
+    Route::delete('profiles/{id}/permissions/{idPermission}', [PermissionProfileController::class, 'detach'])->name('profiles.permissions.detach');
+    Route::any('profiles/{id}/permissions/create', [PermissionProfileController::class, 'permissionsAvailable'])->name('profiles.permissions.available');
+    Route::get('profiles/{id}/permissions', [PermissionProfileController::class, 'permissions'])->name('profiles.permissions'); //
 
 
     /**
