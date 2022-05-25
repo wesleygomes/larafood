@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
+        {{-- <div class="card-header">
             <form action="{{ route('profiles.search') }}" method="POST" class="form form-inline">
                 @csrf
                 <div class="mb-3 mr-1">
@@ -22,7 +22,7 @@
                     <a href="{{ route('profiles.index') }}" class="btn btn-info">Limpar</a>
                 </div>
             </form>
-        </div>
+        </div> --}}
         <div class="card-body">
             @if ($permissions->count() > 0)
                 @include('admin.includes.alerts')
@@ -38,8 +38,13 @@
                             <tr>
                                 <td>{{ $permission->name }}</td>
                                 <td style="width=10px;">
-                                    <a href="{{ route('profiles.permissions.detach', [$profile->id, $permission->id]) }}"
-                                        class="btn btn-danger">DESVINCULAR</a>
+                                    <form
+                                        action="{{ route('profiles.permission.detach', [$profile->id, $permission->id]) }}"
+                                        method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger">DESVINCULAR</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

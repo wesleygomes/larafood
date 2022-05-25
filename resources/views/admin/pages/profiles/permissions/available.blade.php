@@ -26,6 +26,7 @@
             </form>
         </div>
         <div class="card-body">
+            @if ($permissions->count() > 0)
             <table class="table table-condensed">
                 <thead>
                     <tr>
@@ -58,6 +59,11 @@
                     </form>
                 </tbody>
             </table>
+            @else
+                <div>
+                    <b>Nenhuma permissão para ser vinculada.</b>
+                </div>
+            @endif
         </div>
         <div class="card-footer">
             @if (isset($filters))

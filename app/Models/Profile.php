@@ -17,9 +17,10 @@ class Profile extends Model
     public function search($filter = null)
     {
 
-        $results = $this->where('name', 'LIKE', "%{$filter}%")
-            ->orWhere('description', 'LIKE', "%{$filter}%")
-            ->paginate();
+        $results = $this->when($filter, function ($query, $vl) {
+            $query->where('name', 'LIKE', '%' .  $vl . '%');
+            $query->orWhere('description', 'LIKE', "%{$vl}%");
+        })->paginate();
 
         return $results;
     }
@@ -32,10 +33,9 @@ class Profile extends Model
             $query->from('permission_profile');
             $query->whereRaw("permission_profile.profile_id={$this->id}");
         })
-            ->when($filter, function ($query) use ($filter) {
-                $query->where('permissions.name', 'LIKE', "%{$filter}%");
-            })
-            ->paginate();
+            ->when($filter, function ($query, $vl) {
+                $query->where('permissions.name', 'LIKE', "%{$vl}%");
+            })->paginate();
 
         return $permissions;
     }
