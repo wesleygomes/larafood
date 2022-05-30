@@ -4,7 +4,8 @@
 
 @section('content_header')
     {{ Breadcrumbs::render('permissions') }}
-    <h1>Permissão <a href="{{ route('permissions.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> ADICIONAR NOVA PERMISSÃO</a>
+    <h1>Permissão <a href="{{ route('permissions.create') }}" class="btn btn-success"><i class="fas fa-plus"></i>
+            ADICIONAR NOVA PERMISSÃO</a>
     </h1>
 @stop
 
@@ -14,7 +15,8 @@
             <form action="{{ route('permissions.search') }}" method="POST" class="form form-inline">
                 @csrf
                 <div class="mb-3 mr-1">
-                    <input type="text" class="form-control" id="search" value="{{$filters['search'] ?? ''}}" name="search" placeholder="Nome">
+                    <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
+                        name="search" placeholder="Nome">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
@@ -44,6 +46,8 @@
                                             class="fas fa-pen"></i> Edit</a>
                                     <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-warning"><i
                                             class="fas fa-eye"></i> VER</a>
+                                    <a href="{{ route('permissions.profiles', $permission->id) }}" class="btn btn-warning"><i
+                                            class="fas fa-address-card"></i></a>
                                 </td>
                             </tr>
                         @endforeach

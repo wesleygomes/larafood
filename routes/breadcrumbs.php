@@ -109,3 +109,21 @@ Breadcrumbs::for('permissions.edit', function ($trail, $name) {
     $trail->parent('permissions');
     $trail->push($name, route('permissions.edit', $name));
 });
+
+// Dashboard > Perfis > Profiles
+Breadcrumbs::for('profiles.permissions', function ($trail, $name) {
+    $trail->parent('profiles');
+    $trail->push('Permissões do perfil '.$name, route('profiles.permissions', $name));
+});
+
+// Dashboard > Perfis > Profiles > Create
+Breadcrumbs::for('profiles.permissions.available', function ($trail, $name) {
+    $trail->parent('profiles');
+    $trail->push('Vincular permissões para '.$name, route('profiles.permissions.available', $name));
+});
+
+// Dashboard > Permission > Profiles
+Breadcrumbs::for('permissions.profiles', function ($trail, $name) {
+    $trail->parent('permissions');
+    $trail->push('Perfils da Permissão '.$name, route('permissions.profiles', $name));
+});

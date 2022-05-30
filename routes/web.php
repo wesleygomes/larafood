@@ -26,6 +26,11 @@ Route::prefix('admin')->group(base_path('routes/details_plans.php'));
  */
 Route::prefix('admin')->group(base_path('routes/permissions_profiles.php'));
 
+/**
+ * Route Profile x Permission
+ */
+Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
+
 
 
 Route::prefix('admin')->group(function () {
