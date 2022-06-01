@@ -14,6 +14,23 @@ class Profile extends Model
         'description'
     ];
 
+    /**
+     * Get Permissions
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    /**
+     * Get Plans
+     */
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
+
+
     public function search($filter = null)
     {
 
@@ -38,13 +55,5 @@ class Profile extends Model
             })->paginate();
 
         return $permissions;
-    }
-
-    /**
-     * Get Permissions
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ACL\PermissionController;
-use App\Http\Controllers\Admin\ACL\PermissionProfileController;
 use App\Http\Controllers\Admin\ACL\ProfileController;
-use App\Http\Controllers\Admin\DetailPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +23,11 @@ Route::prefix('admin')->group(base_path('routes/details_plans.php'));
  * Route Permission x Profile
  */
 Route::prefix('admin')->group(base_path('routes/permissions_profiles.php'));
+
+/**
+ * Route Plan x Profile
+ */
+Route::prefix('admin')->group(base_path('routes/plan_profiles.php'));
 
 /**
  * Route Profile x Permission
