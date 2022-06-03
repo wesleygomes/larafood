@@ -5,7 +5,7 @@
 @section('content_header')
     {{-- {{ Breadcrumbs::render('profiles.profiles', $plan->name) }} --}}
     <h1>Perfis do plano <strong>{{ $plan->name }}</strong></h1>
-    <a href="#" class="btn btn-dark">ADD NOVO VINCULO</a>
+    <a href="{{ route('plans.profile.available', $plan->id) }}" class="btn btn-dark">ADD NOVO VINCULO</a>
 @stop
 
 @section('content')

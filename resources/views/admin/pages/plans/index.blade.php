@@ -49,7 +49,7 @@
                                             class="fas fa-pen"></i> Edit</a>
                                     <a href="{{ route('plans.show', $plan->url) }}" class="btn btn-warning"><i
                                             class="fas fa-eye"></i> VER</a>
-                                    <a href="{{ route('plans.profile', $plan->id) }}"
+                                    <a href="{{ route('plans.profiles', $plan->id) }}"
                                         class="btn btn-warning"><i class="fas fa-address-card"></i></a>
                                 </td>
                             </tr>

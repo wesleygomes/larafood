@@ -29,6 +29,33 @@ class PlanProfileController extends Controller
         return view('admin.pages.plans.profiles.profiles', compact('plan', 'profiles'));
     }
 
+    public function plans($idProfile)
+    {
+        $profile = $this->profile->find($idProfile);
+
+        if (!$profile) {
+            return redirect()->back();
+        }
+
+        $plans = $profile->plans()->paginate();
+
+        return view('admin.pages.plans.profiles.plans', compact('profile', 'plans'));
+    }
+
+
+    public function plansAvailable(Request $request, $idPerfil)
+    {
+        if (!$profile = $this->profile->find($idPerfil)) {
+            return redirect()->back();
+        }
+
+        $filters = $request->except('_token');
+
+        $plans = $profile->plansAvailable($request->filter);
+
+        return view('admin.pages.plans.profiles.available', compact('profile', 'plans'));
+    }
+
 
 
 
