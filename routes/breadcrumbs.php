@@ -127,3 +127,22 @@ Breadcrumbs::for('permissions.profiles', function ($trail, $name) {
     $trail->parent('permissions');
     $trail->push('Perfils da Permissão '.$name, route('permissions.profiles', $name));
 });
+
+
+// Dashboard > Planos > Profiles
+Breadcrumbs::for('plans.profiles', function ($trail, $name) {
+    $trail->parent('plans');
+    $trail->push('Planos do perfil '.$name, route('plans.profiles', $name));
+});
+
+// Dashboard > Planos > Profiles > Create
+Breadcrumbs::for('plans.profiles.available', function ($trail, $plan, $name) {
+    $trail->parent('plans.profiles', $plan);
+    $trail->push($name, route('plans.profiles.available', $name));
+});
+
+// Dashboard > Profiles > Plans
+Breadcrumbs::for('profiles.plans', function ($trail, $name) {
+    $trail->parent('profiles');
+    $trail->push('Perfils do plano '.$name, route('profiles.plans', $name));
+});

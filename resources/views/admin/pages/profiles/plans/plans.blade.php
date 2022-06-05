@@ -1,29 +1,28 @@
 @extends('adminlte::page')
 
-@section('title', "Perfis do plano {$plan->name}")
+@section('title', "Planos do perfil {$profile->name}")
 
 @section('content_header')
-    {{ Breadcrumbs::render('plans.profiles', $plan->name) }}
-    <h1>Perfis do plano <strong>{{ $plan->name }}</strong></h1>
-    <a href="{{ route('plans.profiles.available', $plan->id) }}" class="btn btn-dark">ADD NOVO VINCULO</a>
+    {{ Breadcrumbs::render('profiles.plans', $profile->name) }}
+    <h1>Perfis do plano <strong>{{ $profile->name }}</strong></h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            @if ($profiles->count() > 0)
+            @if ($plans->count() > 0)
                 @include('admin.includes.alerts')
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Perfil</th>
+                            <th scope="col">Planos</th>
                             <th scope="col" width="50">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($profiles as $profile)
+                        @foreach ($plans as $plan)
                             <tr>
-                                <td>{{ $profile->name }}</td>
+                                <td>{{ $plan->name }}</td>
                                 <td style="width=10px;">
                                     <form action="{{ route('plans.profiles.detach', [$plan->id, $profile->id]) }}"
                                         method="post">
@@ -44,9 +43,9 @@
         </div>
         <div class="card-footer">
             @if (isset($filters))
-                {{ $profiles->appends($filters)->links() }}
+                {{ $plans->appends($filters)->links() }}
             @else
-                {{ $profiles->links() }}
+                {{ $plans->links() }}
             @endif
         </div>
     </div>

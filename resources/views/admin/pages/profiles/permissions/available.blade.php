@@ -10,23 +10,23 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <form action="{{ route('profiles.permissions.available', $profile->id) }}" method="POST"
-                class="form form-inline">
-                @csrf
-                <div class="mb-3 mr-1">
-                    <input type="text" name="filter" placeholder="Filtro" class="form-control"
-                        value="{{ $filters['filter'] ?? '' }}">
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-dark">Filtrar</button>
-                    <a href="{{ route('profiles.permissions.available', $profile->id) }}"
-                        class="btn btn-secondary ">Limpar</a>
-                </div>
-            </form>
-        </div>
-        <div class="card-body">
-            @if ($permissions->count() > 0)
+        @if ($permissions->count() > 0)
+            <div class="card-header">
+                <form action="{{ route('profiles.permissions.available', $profile->id) }}" method="POST"
+                    class="form form-inline">
+                    @csrf
+                    <div class="mb-3 mr-1">
+                        <input type="text" name="filter" placeholder="Filtro" class="form-control"
+                            value="{{ $filters['filter'] ?? '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark">Filtrar</button>
+                        <a href="{{ route('profiles.permissions.available', $profile->id) }}"
+                            class="btn btn-secondary ">Limpar</a>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
                 <table class="table table-condensed">
                     <thead>
                         <tr>
@@ -59,18 +59,19 @@
                         </form>
                     </tbody>
                 </table>
-            @else
-                <div>
-                    <b>Nenhuma permissão para ser vinculada.</b>
-                </div>
-            @endif
-        </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {!! $permissions->appends($filters)->links() !!}
-            @else
-                {!! $permissions->links() !!}
-            @endif
-        </div>
+
+            </div>
+            <div class="card-footer">
+                @if (isset($filters))
+                    {!! $permissions->appends($filters)->links() !!}
+                @else
+                    {!! $permissions->links() !!}
+                @endif
+            </div>
+        @else
+            <div>
+                <b>Nenhuma permissão para ser vinculada.</b>
+            </div>
+        @endif
     </div>
 @stop

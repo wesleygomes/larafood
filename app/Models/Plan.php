@@ -38,4 +38,24 @@ class Plan extends Model
 
         return $results;
     }
+
+
+    /**
+     * Profiles not linked with this plan
+     */
+    public function profilesAvailable($filter = null)
+    {
+
+        $profiles = Profile::whereNotIn('profiles.id', function ($query) {
+            $query->select('plan_profile.profile_id');
+            $query->from('plan_profile');
+            $query->whereRaw("plan_profile.plan_id={$this->id}");
+        })
+            ->when($filter, function ($query, $vl) {
+                $query->where('profiles.name', 'LIKE', "%{$vl}%");
+            })->paginate();
+
+        return $profiles;
+    }
+    
 }

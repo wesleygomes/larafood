@@ -31,33 +31,48 @@ class PlanProfileController extends Controller
 
     public function plans($idProfile)
     {
-        $profile = $this->profile->find($idProfile);
-
-        if (!$profile) {
+        if (!$profile = $this->profile->find($idProfile)) {
             return redirect()->back();
         }
 
         $plans = $profile->plans()->paginate();
 
-        return view('admin.pages.plans.profiles.plans', compact('profile', 'plans'));
+        return view('admin.pages.profiles.plans.plans', compact('profile', 'plans'));
     }
 
 
-    public function plansAvailable(Request $request, $idPerfil)
+    public function profilesAvailable(Request $request, $idPlan)
     {
-        if (!$profile = $this->profile->find($idPerfil)) {
+        if (!$plan = $this->plan->find($idPlan)) {
             return redirect()->back();
         }
 
+
         $filters = $request->except('_token');
 
-        $plans = $profile->plansAvailable($request->filter);
+        $profiles = $plan->profilesAvailable($request->filter);
 
-        return view('admin.pages.plans.profiles.available', compact('profile', 'plans'));
+        return view('admin.pages.plans.profiles.available', compact('plan', 'profiles', 'filters'));
     }
 
+    public function attachProfilesPlan(Request $request, $idPlan)
+    {
 
+        if (!$plan = $this->plan->find($idPlan)) {
+            return redirect()->back();
+        }
 
+        //verifica se esta vazio
+        if (!isset($request->profiles)) {
+            return redirect()
+                ->back()
+                ->with('info', 'Precisa escolher pelo menos um perfil');
+        }
+
+        $plan->profiles()->sync($request->profiles);
+
+        return redirect()->route('plans.profiles', $plan->id)->with('success', 'Vínculo adicionado com sucesso!');
+    }
 
     public function detachPlanProfile($idPlan, $idProfile)
     {

@@ -70,7 +70,7 @@ class PermissionProfileController extends Controller
 
         $profile->permissions()->sync($request->permissions);
 
-        return redirect()->route('profiles.permissions', $profile->id)->with('success', 'Vínculo removido com sucesso!');
+        return redirect()->route('profiles.permissions', $profile->id)->with('success', 'Vínculo adicionado com sucesso!');
     }
 
     public function detachPermissionProfile($idProfile, $idPermission)
