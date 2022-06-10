@@ -11,7 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
- mix.js('resources/js/app.js', 'public/js/app.js')
+ mix
+ .js('resources/js/app.js', 'public/js/app.js')
+ .js('resources/js/maskMoney.js', 'public/js/maskMoney.js')
  .postCss('resources/css/app.css', 'public/css/app.css', [])
  .postCss('resources/css/site.css', 'public/css/site.css', [])
  .postCss('node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/css/bootstrap.css', []);

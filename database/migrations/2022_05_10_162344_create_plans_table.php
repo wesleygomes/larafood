@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('url')->unique();
             $table->double('price', 10, 2);
             $table->string('description')->nullable();
+            $table->enum('active', ['Y', 'N'])->default('Y');
             $table->timestamps();
         });
     }
