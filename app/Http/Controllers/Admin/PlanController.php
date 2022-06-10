@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePlanFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
+use Throwable;
 
 class PlanController extends Controller
 {
@@ -96,9 +98,14 @@ class PlanController extends Controller
         if (!$plan)
             return redirect()->back();
 
-        $plan->update($request->all());
-
-        return redirect()->route('plans.index')->with('success', 'Plano atualizado com sucesso');
+        try {
+            $plan->update($request->all());
+            alert()->success('Sucesso', 'Plano atualizado com sucesso');
+            return redirect()->route('plans.index');
+        } catch (Throwable $e) {
+            alert()->error('Erro', 'Algo deu errado na atualização');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -109,6 +116,7 @@ class PlanController extends Controller
      */
     public function destroy($url)
     {
+
         $plan = $this->repository->where('url', $url)->first();
 
         if (!$plan)
@@ -120,12 +128,14 @@ class PlanController extends Controller
                 ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
         }
 
-        $plan->delete();
-
-        return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso');
-        //return redirect()->route('plans.index')->with('success', 'Plano deletado com sucesso!');
-        //return redirect()->route('plans.index')->alert()->success('Title','Lorem Lorem Lorem');
-
+        try {
+            $plan->delete();
+            alert()->success('Sucesso', 'Plano deletado com sucesso');
+            return redirect()->route('plans.index');
+        } catch (Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     public function search(Request $request)

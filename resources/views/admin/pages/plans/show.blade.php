@@ -39,3 +39,16 @@
         </div>
     </div>
 @endsection
+@section('js')
+    {{-- <script>
+        $(function() {
+            $('#price').maskMoney({
+                prefix: 'R$ ',
+                allowNegative: true,
+                thousands: '.',
+                decimal: '.',
+                affixesStay: false
+            });
+        })
+    </script> --}}
+@stop

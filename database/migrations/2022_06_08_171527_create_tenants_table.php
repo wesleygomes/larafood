@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tenants', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('plan_id');
             $table->uuid('uuid');
             $table->string('cnpj')->unique();
@@ -26,9 +26,22 @@ return new class extends Migration
             // Status tenant (se inativar 'N' ele perde o acesso ao sistema)
             $table->enum('active', ['Y', 'N'])->default('Y');
 
+            // Subscription
+            $table->date('subscription')->nullable(); // Data que se inscreveu
+            $table->date('expires_at')->nullable(); // Data que expira o acesso
+            $table->string('subscription_id', 255)->nullable(); // Identificado do Gateway de pagamento
+            $table->boolean('subscription_active')->default(false); // Assinatura ativa (porque pode cancelar)
+            $table->boolean('subscription_suspended')->default(false); // Assinatura cancelada
+
             $table->timestamps();
 
-            $table->foreign('plan_id')->references('id')->on('plans');
+
+            $table->foreign('plan_id')
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade')
+                ->references('id')
+                ->on('plans');
         });
     }
 
