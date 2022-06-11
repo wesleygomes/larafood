@@ -31,24 +31,38 @@
 
             @include('admin.includes.alerts')
 
-            <form action="{{ route('plans.destroy', $plan->url) }}" method="POST">
+            <form id="myForm" action="{{ route('plans.destroy', $plan->url) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> DELETAR O PLANO </button>
+                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i>
+                    DELETAR O PLANO
+                </button>
             </form>
         </div>
     </div>
 @endsection
 @section('js')
-    {{-- <script>
-        $(function() {
-            $('#price').maskMoney({
-                prefix: 'R$ ',
-                allowNegative: true,
-                thousands: '.',
-                decimal: '.',
-                affixesStay: false
-            });
-        })
-    </script> --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $('#myForm').submit(function(e) {
+            var form = this;
+            e.preventDefault();
+            Swal.fire({
+                    title: "Deletar",
+                    text: "Tem certeza que deseja deletar este plano?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#186e1d',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+        });
+    </script>
 @stop

@@ -49,8 +49,14 @@ class PlanController extends Controller
      */
     public function store(StoreUpdatePlanFormRequest $request)
     {
-        $this->repository->create($request->all());
-        return redirect()->route('plans.index')->with('success', 'Plano criado com sucesso');
+        try {
+            $this->repository->create($request->all());
+            alert()->success('Sucesso', 'Plano cadastrado com sucesso')->toToast();
+            return redirect()->route('plans.index');
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado na atualização');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -100,10 +106,11 @@ class PlanController extends Controller
 
         try {
             $plan->update($request->all());
-            alert()->success('Sucesso', 'Plano atualizado com sucesso');
+            toast('Plano atualizado com sucesso','success');
+            //alert()->success('Sucesso', 'Plano atualizado com sucesso')->toToast();
             return redirect()->route('plans.index');
         } catch (Throwable $e) {
-            alert()->error('Erro', 'Algo deu errado na atualização');
+            alert()->error('Erro', 'Algo deu errado na atualização')->toToast();
             return redirect()->back();
         }
     }
@@ -130,10 +137,11 @@ class PlanController extends Controller
 
         try {
             $plan->delete();
-            alert()->success('Sucesso', 'Plano deletado com sucesso');
+            toast('Plano deletado com sucesso','success');
             return redirect()->route('plans.index');
         } catch (Throwable $th) {
-            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            toast('Algo deu errado, tente novamente','error')->toToast();
+            alert()->error('Erro', '');
             return redirect()->back();
         }
     }
