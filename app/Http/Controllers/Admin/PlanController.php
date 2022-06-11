@@ -6,8 +6,6 @@ use App\Models\Plan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePlanFormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use RealRashid\SweetAlert\Facades\Alert;
 use Throwable;
 
 class PlanController extends Controller
@@ -106,11 +104,10 @@ class PlanController extends Controller
 
         try {
             $plan->update($request->all());
-            toast('Plano atualizado com sucesso','success');
-            //alert()->success('Sucesso', 'Plano atualizado com sucesso')->toToast();
+            alert()->success('Sucesso','Plano atualizado com sucesso')->toToast();
             return redirect()->route('plans.index');
         } catch (Throwable $e) {
-            alert()->error('Erro', 'Algo deu errado na atualização')->toToast();
+            alert()->error('Erro', 'Algo deu errado na atualização');
             return redirect()->back();
         }
     }
@@ -137,11 +134,10 @@ class PlanController extends Controller
 
         try {
             $plan->delete();
-            toast('Plano deletado com sucesso','success');
+            alert()->success('Sucesso','Plano deletado com sucesso')->toToast();
             return redirect()->route('plans.index');
         } catch (Throwable $th) {
-            toast('Algo deu errado, tente novamente','error')->toToast();
-            alert()->error('Erro', '');
+            alert()->error('Erro', 'Algo deu errado, tente novamente')->toToast();
             return redirect()->back();
         }
     }

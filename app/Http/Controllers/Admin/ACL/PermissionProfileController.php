@@ -68,9 +68,14 @@ class PermissionProfileController extends Controller
                 ->with('info', 'Precisa escolher pelo menos uma permissão');
         }
 
-        $profile->permissions()->sync($request->permissions);
-
-        return redirect()->route('profiles.permissions', $profile->id)->with('success', 'Vínculo adicionado com sucesso!');
+        try {
+            $profile->permissions()->sync($request->permissions);
+            alert()->success('Sucesso', 'Vínculo adicionado com sucesso!')->toToast();
+            return redirect()->route('profiles.permissions', $profile->id);
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     public function detachPermissionProfile($idProfile, $idPermission)
@@ -82,8 +87,13 @@ class PermissionProfileController extends Controller
             return redirect()->back();
         }
 
-        $profile->permissions()->detach($permission);
-
-        return redirect()->route('profiles.permissions', $profile->id)->with('success', 'Vínculo removido com sucesso!');
+        try {
+            $profile->permissions()->detach($permission);
+            alert()->success('Sucesso', 'Vínculo removido com sucesso!')->toToast();
+            return redirect()->route('profiles.permissions', $profile->id);
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 }

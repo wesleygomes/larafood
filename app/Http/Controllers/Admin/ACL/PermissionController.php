@@ -47,11 +47,14 @@ class PermissionController extends Controller
      */
     public function store(StoreUpdatePermissionFormRequest $request)
     {
-        if (!$this->repository->create($request->all())) {
-            return redirect()->back()->with('error', 'Não foi possivel salvar a permissão');
+        try {
+            $this->repository->create($request->all());
+            alert()->success('Sucesso', 'Permissão cadastrada com sucesso')->toToast();
+            return redirect()->route('permissions.index');
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
         }
-
-        return redirect()->route('permissions.index')->with('success', 'Permissão criada com sucesso');
     }
 
     /**
@@ -102,9 +105,14 @@ class PermissionController extends Controller
         if (!$permission)
             return redirect()->back();
 
-        $permission->update($request->all());
-
-        return redirect()->route('permissions.index')->with('success', 'Permissão atualizada com sucesso');
+        try {
+            $permission->update($request->all());
+            alert()->success('Sucesso', 'Permissão atualizada com sucesso')->toToast();
+            return redirect()->route('permissions.index');
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -120,15 +128,14 @@ class PermissionController extends Controller
         if (!$permission)
             return redirect()->back();
 
-        // if ($plan->details->count() > 0) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
-        // }
-
-        $permission->delete();
-
-        return redirect()->route('permissions.index')->with('success', 'Permissão deletada com sucesso');
+        try {
+            $permission->delete();
+            alert()->success('Sucesso', 'Permissão deletada com sucesso')->toToast();
+            return redirect()->route('permissions.index');
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     public function search(Request $request)

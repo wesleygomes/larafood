@@ -69,9 +69,14 @@ class PlanProfileController extends Controller
                 ->with('info', 'Precisa escolher pelo menos um perfil');
         }
 
-        $plan->profiles()->sync($request->profiles);
-
-        return redirect()->route('plans.profiles', $plan->id)->with('success', 'Vínculo adicionado com sucesso!');
+        try {
+            $plan->profiles()->sync($request->profiles);
+            alert()->success('Sucesso', 'Vínculo adicionado com sucesso')->toToast();
+            return redirect()->route('plans.profiles', $plan->id);
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     public function detachPlanProfile($idPlan, $idProfile)
@@ -83,8 +88,13 @@ class PlanProfileController extends Controller
             return redirect()->back();
         }
 
-        $plan->profiles()->detach($profile);
-
-        return redirect()->route('plans.profiles', $plan->id)->with('success', 'Vínculo removido com sucesso!');
+        try {
+            $plan->profiles()->detach($profile);
+            alert()->success('Sucesso', 'Vínculo removido com sucesso')->toToast();
+            return redirect()->route('plans.profiles', $plan->id);
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 }

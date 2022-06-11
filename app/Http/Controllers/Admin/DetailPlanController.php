@@ -31,8 +31,6 @@ class DetailPlanController extends Controller
         }
 
         $details = $plan->details()->orderBy('id', 'DESC')->paginate();
-
-
         return view('admin.pages.plans.details.index', compact('plan', 'details'));
     }
 
@@ -62,9 +60,14 @@ class DetailPlanController extends Controller
             return redirect()->back();
         }
 
-        $plan->details()->create($request->all());
-
-        return redirect()->route('details.plan.index', $plan->url)->with('success', 'Detalhe criado com sucesso');
+        try {
+            $plan->details()->create($request->all());
+            alert()->success('Sucesso', 'Detalhe criado com sucesso')->toToast();
+            return redirect()->route('details.plan.index', $plan->url);
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente')->toToast();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -119,9 +122,13 @@ class DetailPlanController extends Controller
             return redirect()->back();
         }
 
-        $detail->update($request->all());
-
-        return redirect()->route('details.plan.index', $plan->url)->with('success', 'Detalhe atualizado com sucesso');
+        try {
+            $detail->update($request->all());
+            alert()->success('Sucesso', 'Detalhe atualizado com sucesso')->toToast();
+            return redirect()->route('details.plan.index', $plan->url);
+        } catch (\Throwable $th) {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -139,9 +146,12 @@ class DetailPlanController extends Controller
             return redirect()->back();
         }
 
-        $detail->delete();
-
-        return redirect()
-            ->route('details.plan.index', $plan->url)->with('success', 'Registro detalado com sucesso');
+        try {
+            $detail->delete();
+            alert()->success('Sucesso', 'Detalhe deletado com sucesso')->toToast();
+            return redirect()->route('details.plan.index', $plan->url);
+        } catch (\Throwable $th) {
+            return redirect()->back();
+        }
     }
 }

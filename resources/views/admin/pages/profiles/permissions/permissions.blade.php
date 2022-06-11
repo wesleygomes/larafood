@@ -26,6 +26,7 @@
                                 <td>{{ $permission->name }}</td>
                                 <td style="width=10px;">
                                     <form
+                                        class="detachProfilePermission"
                                         action="{{ route('profiles.permission.detach', [$profile->id, $permission->id]) }}"
                                         method="post">
                                         @method('DELETE')
@@ -52,3 +53,29 @@
         </div>
     </div>
 @stop
+@section('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $('.detachProfilePermission').submit(function(e) {
+            var form = this;
+            e.preventDefault();
+            Swal.fire({
+                title: "Deletar",
+                text: "Tem certeza que deseja remover este vinculo?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#186e1d',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        });
+    </script>
+@stop
+

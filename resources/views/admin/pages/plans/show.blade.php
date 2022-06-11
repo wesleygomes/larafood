@@ -49,20 +49,20 @@
             var form = this;
             e.preventDefault();
             Swal.fire({
-                    title: "Deletar",
-                    text: "Tem certeza que deseja deletar este plano?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#186e1d',
-                    confirmButtonText: 'Confirmar',
-                    cancelButtonText: "Cancelar",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                })
+                title: "Deletar",
+                text: "Tem certeza que deseja deletar este plano?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#186e1d',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
         });
     </script>
 @stop
