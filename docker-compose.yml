@@ -65,6 +65,10 @@ services:
     redis:
         container_name: larafood-redis
         image: redis:latest
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./.docker/redis/redisdata:/data
         networks:
             - laravel-9
 

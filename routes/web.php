@@ -56,6 +56,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [PlanController::class, 'index'])->name('admin.index');
 });
 
+Route::get('/plan/{url}', [SiteController::class, 'plan'])->name('plan.subscription');
 Route::get('/', [SiteController::class, 'index'])->name('site.index');
 
 require __DIR__ . '/auth.php';
