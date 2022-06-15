@@ -7,6 +7,25 @@ Breadcrumbs::for('admin', function ($trail) {
     $trail->push('Dashboard', route('admin.index'));
 });
 
+// Dashboard > Users
+Breadcrumbs::for('users', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('Usuários', route('users.index'));
+});
+// Dashboard > Users > Create
+Breadcrumbs::for('users.create', function ($trail) {
+    $trail->parent('users');
+    $trail->push('Cadastrar', route('users.create'));
+});
+// Dashboard > Users > Show
+Breadcrumbs::for('users.show', function ($trail, $name) {
+    $trail->parent('users');
+    $trail->push($name, route('users.show', $name));
+});
+
+
+
+
 // Dashboard > Planos
 Breadcrumbs::for('plans', function ($trail) {
     $trail->parent('admin');

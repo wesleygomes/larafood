@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant;
-use App\Models\User;
+use App\Services\TenantService;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -39,28 +36,16 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'cnpj' => ['required', 'string', 'unique:tenants'],
-            'empresa' => ['required', 'string', 'unique:tenants,name'],
+            'empresa' => ['required', 'string', 'min:3', 'max:255', 'unique:tenants,name'],
+            'cnpj' => ['required', 'numeric', 'digits:14', 'unique:tenants'],
         ]);
 
         if (!$plan = session('plan')) {
             return redirect()->back();
         }
 
-        $tenent = $plan->tenants()->create([
-            'cnpj' => $request->cnpj,
-            'name' => $request->empresa,
-            'url' => Str::slug($request->empresa),
-            'email' => $request->email,
-            'subscription' => now(),
-            'expires_at' => now()->addDays(7),
-        ]);
-
-        $user = $tenent->users()->create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $tenantService = app(TenantService::class);
+        $user = $tenantService->make($plan, $request->all());
 
         event(new Registered($user));
 

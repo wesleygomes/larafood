@@ -1,8 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\ACL\PermissionController;
-use App\Http\Controllers\Admin\ACL\ProfileController;
-use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\ACL\{
+    PermissionController,
+    ProfileController,
+};
+use App\Http\Controllers\Admin\{
+    UserController,
+    PlanController,
+};
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +39,14 @@ Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+    /**
+     * Route Users
+     */
+
+    Route::any('users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('users', UserController::class);
+
 
     /**
      * Route Permissions
