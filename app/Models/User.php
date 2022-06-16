@@ -56,7 +56,7 @@ class User extends Authenticatable
     {
 
         $results = $this->when($filter, function ($query, $vl) {
-            $query->where('name', 'LIKE', '%' .  $vl . '%');
+            $query->orWhere('name', 'LIKE', '%' .  $vl . '%');
             $query->orWhere('email', 'LIKE', "%{$vl}%");
         })->paginate();
 
