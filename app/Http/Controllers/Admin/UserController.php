@@ -10,7 +10,7 @@ use Throwable;
 
 class UserController extends Controller
 {
-    private $repository;
+    protected $repository;
 
     public function __construct(User $user)
     {
@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->repository->orderBy('id', 'DESC')->paginate();
+        $users = $this->repository->latest()->tenantUser()->paginate();
         return view('admin.pages.users.index', compact('users'));
     }
 
@@ -68,10 +68,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->repository->find($id);
-
-        if (!$user)
+        if (!$user = $this->repository->tenantUser()->find($id)) {
             return redirect()->back();
+        }
 
         return view('admin.pages.users.show', compact('user'));
     }
@@ -84,10 +83,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->repository->find($id);
-
-        if (!$user)
+        if (!$user = $this->repository->tenantUser()->find($id)) {
             return redirect()->back();
+        }
 
         return view('admin.pages.users.edit', compact('user'));
     }
@@ -100,13 +98,18 @@ class UserController extends Controller
      */
     public function update(StoreUpdateUserFormRequest $request, $id)
     {
-        $user = $this->repository->find($id);
-
-        if (!$user)
+        if (!$user = $this->repository->tenantUser()->find($id)) {
             return redirect()->back();
+        }
 
         try {
-            $user->update($request->all());
+            $data = $request->only(['name', 'email']);
+
+            if ($request->password) {
+                $data['password'] = bcrypt($request->password);
+            }
+
+            $user->update($data);
             alert()->success('Sucesso', 'Usuário atualizado com sucesso')->toToast();
             return redirect()->route('users.index');
         } catch (Throwable $e) {
@@ -124,10 +127,14 @@ class UserController extends Controller
     public function destroy($id)
     {
 
-        $user = $this->repository->find($id);
-
-        if (!$user)
+        if (!$user = $this->repository->tenantUser()->find($id)) {
             return redirect()->back();
+        }
+
+        if ($id = auth()->user()->id) {
+            alert()->error('Erro', 'Você não pode excluir seu próprio usuário')->toToast();
+            return redirect()->back();
+        }
 
         try {
             $user->delete();
@@ -141,7 +148,7 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        $filters = $request->except('_token');
+        $filters = $request->only('filter');
 
         $users = $this->repository->search($request->search);
 

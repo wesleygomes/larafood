@@ -25,7 +25,8 @@ class PlanController extends Controller
      */
     public function index()
     {
-        $plans = $this->repository->orderBy('id', 'DESC')->paginate();
+        $plans = $this->repository->latest()->active()->paginate();
+
         return view('admin.pages.plans.index', compact('plans'));
     }
 
@@ -65,7 +66,7 @@ class PlanController extends Controller
      */
     public function show($url)
     {
-        $plan = $this->repository->where('url', $url)->first();
+        $plan = $this->repository->active()->where('url', $url)->first();
 
         if (!$plan)
             return redirect()->back();
@@ -81,7 +82,7 @@ class PlanController extends Controller
      */
     public function edit($url)
     {
-        $plan = $this->repository->where('url', $url)->first();
+        $plan = $this->repository->active()->where('url', $url)->first();
 
         if (!$plan)
             return redirect()->back();
@@ -97,14 +98,14 @@ class PlanController extends Controller
      */
     public function update(StoreUpdatePlanFormRequest $request, $url)
     {
-        $plan = $this->repository->where('url', $url)->first();
+        $plan = $this->repository->active()->where('url', $url)->first();
 
         if (!$plan)
             return redirect()->back();
 
         try {
             $plan->update($request->all());
-            alert()->success('Sucesso','Plano atualizado com sucesso')->toToast();
+            alert()->success('Sucesso', 'Plano atualizado com sucesso')->toToast();
             return redirect()->route('plans.index');
         } catch (Throwable $e) {
             alert()->error('Erro', 'Algo deu errado na atualização');
@@ -121,7 +122,7 @@ class PlanController extends Controller
     public function destroy($url)
     {
 
-        $plan = $this->repository->where('url', $url)->first();
+        $plan = $this->repository->active()->where('url', $url)->first();
 
         if (!$plan)
             return redirect()->back();
@@ -134,7 +135,7 @@ class PlanController extends Controller
 
         try {
             $plan->delete();
-            alert()->success('Sucesso','Plano deletado com sucesso')->toToast();
+            alert()->success('Sucesso', 'Plano deletado com sucesso')->toToast();
             return redirect()->route('plans.index');
         } catch (Throwable $th) {
             alert()->error('Erro', 'Algo deu errado, tente novamente')->toToast();

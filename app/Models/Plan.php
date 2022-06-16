@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,18 @@ class Plan extends Model
     ];
 
     //protected $dateFormat = 'd-m-Y H:i:s';
+
+    /**
+     * Scope a query to only users active
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', 'Y');
+    }
+
 
     public function details()
     {

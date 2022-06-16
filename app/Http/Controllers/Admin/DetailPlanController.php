@@ -30,7 +30,7 @@ class DetailPlanController extends Controller
             return redirect()->back();
         }
 
-        $details = $plan->details()->orderBy('id', 'DESC')->paginate();
+        $details = $plan->details()->latest()->paginate();
         return view('admin.pages.plans.details.index', compact('plan', 'details'));
     }
 

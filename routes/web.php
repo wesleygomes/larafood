@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ACL\{
     ProfileController,
 };
 use App\Http\Controllers\Admin\{
+    CategoryController,
     UserController,
     PlanController,
 };
@@ -39,6 +40,14 @@ Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+    /**
+     * Route Categories
+     *
+     */
+
+    Route::any('categories/search', [CategoryController::class, 'search'])->name('categories.search');
+    Route::resource('categories', CategoryController::class);
 
     /**
      * Route Users

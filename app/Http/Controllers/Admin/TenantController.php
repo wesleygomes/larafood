@@ -29,7 +29,7 @@ class TenantController extends Controller
             return redirect()->back();
         }
 
-        $tenants = $plan->tenats()->orderBy('id', 'DESC')->paginate();
+        $tenants = $plan->tenats()->latest()->paginate();
         return view('admin.pages.plans.details.index', compact('plan', 'details'));
     }
 
