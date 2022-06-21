@@ -3,7 +3,7 @@
 
 <div class="mb-3">
     <label for="name" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="name" name="name" value="{{ $plan->name ?? old('name') }}"
+    <input type="text" class="form-control" id="name" name="name" value="{{ $category->name ?? old('name') }}"
         placeholder="Nome">
 </div>
 <div class="form-group">

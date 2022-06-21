@@ -41,8 +41,8 @@
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->description }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info">Edit</a>
-                                <a href="{{ route('categories.show', $category->id) }}" class="btn btn-warning">VER</a>
+                                <a href="{{ route('categories.edit', $category->url) }}" class="btn btn-info">Edit</a>
+                                <a href="{{ route('categories.show', $category->url) }}" class="btn btn-warning">VER</a>
                             </td>
                         </tr>
                     @endforeach

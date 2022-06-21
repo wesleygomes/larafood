@@ -19,6 +19,10 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        if (!session('plan')) {
+            alert()->info('Atenção', 'Você precisa selecionar um plano para continuar')->toToast();
+            return redirect()->route('site.index');
+        }
         return view('auth.register');
     }
 

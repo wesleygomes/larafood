@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Tenant\ManagerTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'tenant_id',
+        'name', 'email', 'password', 'acitve', 'tenant_id',
     ];
 
     /**
@@ -48,7 +49,19 @@ class User extends Authenticatable
      */
     public function scopeTenantUser(Builder $query)
     {
-        return $query->where('tenant_id', auth()->user()->tenant_id);
+        return $query
+            //->where('active', 'Y')
+            ->where('tenant_id', auth()->user()->tenant_id);
+
+        // $isAdmin = app(ManagerTenant::class)->isAdmin();
+
+        // return $query->where(function($query) use($isAdmin) {
+        //     if ($isAdmin === true) {
+        //         $query->orWhere('tenant_id', auth()->user()->tenant_id);
+        //     }
+        //     $query->orWhere('active', 'Y');
+        //     $query->orWhere('tenant_id', auth()->user()->tenant_id);
+        // });
     }
 
     /**

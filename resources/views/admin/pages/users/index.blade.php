@@ -40,6 +40,13 @@
                             <td style="width=10px;">
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-warning">VER</a>
+                                <a class="@if ($user->active == 'Y')btn btn-success @else btn btn-danger @endif">
+                                    @if ($user->active == 'Y')
+                                        Ativo
+                                    @else
+                                        Inativo
+                                    @endif
+                                </a>
                             </td>
                         </tr>
                     @endforeach

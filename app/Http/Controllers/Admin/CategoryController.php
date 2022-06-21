@@ -10,6 +10,7 @@ use Throwable;
 
 class CategoryController extends Controller
 {
+
     private $repository;
 
     public function __construct(Category $category)
@@ -147,6 +148,7 @@ class CategoryController extends Controller
         $filters = $request->only('filter');
 
         $categories = $this->repository->search($request->search);
+        
         return view('admin.pages.categories.index', compact('categories', 'filters'));
     }
 }

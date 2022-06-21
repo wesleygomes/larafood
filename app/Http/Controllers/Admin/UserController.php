@@ -98,6 +98,7 @@ class UserController extends Controller
      */
     public function update(StoreUpdateUserFormRequest $request, $id)
     {
+
         if (!$user = $this->repository->tenantUser()->find($id)) {
             return redirect()->back();
         }
@@ -107,6 +108,10 @@ class UserController extends Controller
 
             if ($request->password) {
                 $data['password'] = bcrypt($request->password);
+            }
+
+            if ($request->active) {
+                $data['active'] = $request->active;
             }
 
             $user->update($data);

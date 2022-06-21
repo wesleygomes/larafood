@@ -17,7 +17,6 @@ class CategoryObserver
     {
         $category->uuid = Str::uuid($category->uuid);
         $category->url = Str::slug($category->name);
-        $category->tenant_id = auth()->user()->tenant_id;
     }
 
     /**
