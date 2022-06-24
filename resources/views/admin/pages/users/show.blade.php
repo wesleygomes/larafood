@@ -20,6 +20,9 @@
                 <li>
                     <strong>Empresa: </strong> {{ $user->tenant->name }}
                 </li>
+                <li>
+                    <strong>Status: </strong>  {!! $user->active['span'] !!}
+                </li>
             </ul>
 
             @include('admin.includes.alerts')

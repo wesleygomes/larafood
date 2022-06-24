@@ -3,22 +3,15 @@
 namespace App\Models;
 
 use App\Tenant\Traits\TenantTrait;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Category extends Model
+class Product extends Model
 {
     use HasFactory, TenantTrait;
 
-    protected $fillable = ['name', 'url', 'description'];
-
-
-    public function products()
-    {
-        return $this->belongsToMany(Category::class);
-    }
-
+    protected $fillable = ['title', 'flag', 'price', 'description', 'image'];
 
     /**
      * Scope a query to only categories active
@@ -32,11 +25,17 @@ class Category extends Model
     }
 
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+
     public function search($filter = null)
     {
 
         $results = $this->when($filter, function ($query, $vl) {
-            $query->where('name', 'LIKE', '%' .  $vl . '%');
+            $query->where('title', 'LIKE', '%' .  $vl . '%');
             $query->orWhere('description', 'LIKE', "%{$vl}%");
         })->latest()->paginate();
 

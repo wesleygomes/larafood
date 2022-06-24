@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateUserFormRequest;
 use App\Models\User;
@@ -25,6 +26,11 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->repository->latest()->tenantUser()->paginate();
+
+        foreach ($users as $i => $value) {
+            $users[$i]["active"] = UserStatus::_Descricao2($value["active"]);
+        }
+
         return view('admin.pages.users.index', compact('users'));
     }
 
@@ -72,6 +78,8 @@ class UserController extends Controller
             return redirect()->back();
         }
 
+        $user['active'] = UserStatus::_Descricao2($user["active"]);
+
         return view('admin.pages.users.show', compact('user'));
     }
 
@@ -104,7 +112,7 @@ class UserController extends Controller
         }
 
         try {
-            $data = $request->only(['name', 'email']);
+            $data = $request->only(['name', 'email', 'active']);
 
             if ($request->password) {
                 $data['password'] = bcrypt($request->password);

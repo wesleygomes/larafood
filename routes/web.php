@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\{
     CategoryController,
     UserController,
     PlanController,
+    ProductController,
 };
 use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,16 @@ Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+
+    /**
+     * Route Products
+     *
+     */
+
+    Route::any('products/search', [ProductController::class, 'search'])->name('products.search');
+    Route::resource('products', ProductController::class);
+
 
     /**
      * Route Categories
