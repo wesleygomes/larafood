@@ -11,22 +11,21 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <form action="{{ route('permissions.search') }}" method="POST" class="form form-inline">
-                @csrf
-                <div class="mb-3 mr-1">
-                    <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
-                        name="search" placeholder="Nome">
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
-                    <a href="{{ route('permissions.index') }}" class="btn btn-info">Limpar</a>
-                </div>
-            </form>
-        </div>
-        <div class="card-body">
-
-            @if ($permissions->count() > 0)
+        @if ($permissions->count() > 0)
+            <div class="card-header">
+                <form action="{{ route('permissions.search') }}" method="POST" class="form form-inline">
+                    @csrf
+                    <div class="mb-3 mr-1">
+                        <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
+                            name="search" placeholder="Nome">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
+                        <a href="{{ route('permissions.index') }}" class="btn btn-info">Limpar</a>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
 
                 @include('admin.includes.alerts')
 
@@ -46,25 +45,25 @@
                                             class="fas fa-pen"></i> Edit</a>
                                     <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-warning"><i
                                             class="fas fa-eye"></i> VER</a>
-                                    <a href="{{ route('permissions.profiles', $permission->id) }}" class="btn btn-warning"><i
-                                            class="fas fa-address-card"></i></a>
+                                    <a href="{{ route('permissions.profiles', $permission->id) }}"
+                                        class="btn btn-warning"><i class="fas fa-address-card"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            @else
-                <div>
-                    <b>Nenhuma permissão cadastrada.</b>
-                </div>
-            @endif
-        </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {{ $permissions->appends($filters)->links() }}
-            @else
-                {{ $permissions->links() }}
-            @endif
-        </div>
+            </div>
+            <div class="card-footer">
+                @if (isset($filters))
+                    {{ $permissions->appends($filters)->links() }}
+                @else
+                    {{ $permissions->links() }}
+                @endif
+            </div>
+        @else
+            <div class="card-header">
+                <strong>Nenhuma perfil cadastrado.</strong>
+            </div>
+        @endif
     </div>
 @stop

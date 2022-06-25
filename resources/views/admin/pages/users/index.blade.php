@@ -10,6 +10,7 @@
 
 @section('content')
     <div class="card">
+        @if ($users->count() > 0)
         <div class="card-header">
             <form action="{{ route('users.search') }}" method="POST" class="form form-inline">
                 @csrf
@@ -61,5 +62,10 @@
                 {!! $users->links() !!}
             @endif
         </div>
+        @else
+            <div class="card-hearder">
+                <strong>Nenhum Usuário cadastrado.</strong>
+            </div>
+        @endif
     </div>
 @stop

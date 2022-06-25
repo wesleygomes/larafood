@@ -11,22 +11,21 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <form action="{{ route('profiles.search') }}" method="POST" class="form form-inline">
-                @csrf
-                <div class="mb-3 mr-1">
-                    <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
-                        name="search" placeholder="Perfil">
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
-                    <a href="{{ route('profiles.index') }}" class="btn btn-info">Limpar</a>
-                </div>
-            </form>
-        </div>
-        <div class="card-body">
-
-            @if ($profiles->count() > 0)
+        @if ($profiles->count() > 0)
+            <div class="card-header">
+                <form action="{{ route('profiles.search') }}" method="POST" class="form form-inline">
+                    @csrf
+                    <div class="mb-3 mr-1">
+                        <input type="text" class="form-control" id="search" value="{{ $filters['search'] ?? '' }}"
+                            name="search" placeholder="Perfil">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Pesquisar</button>
+                        <a href="{{ route('profiles.index') }}" class="btn btn-info">Limpar</a>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
 
                 @include('admin.includes.alerts')
 
@@ -55,18 +54,18 @@
                         @endforeach
                     </tbody>
                 </table>
-            @else
-                <div>
-                    <b>Nenhum perfil cadastrado.</b>
-                </div>
-            @endif
-        </div>
-        <div class="card-footer">
-            @if (isset($filters))
-                {{ $profiles->appends($filters)->links() }}
-            @else
-                {{ $profiles->links() }}
-            @endif
-        </div>
+            </div>
+            <div class="card-footer">
+                @if (isset($filters))
+                    {{ $profiles->appends($filters)->links() }}
+                @else
+                    {{ $profiles->links() }}
+                @endif
+            </div>
+        @else
+            <div class="card-hearder">
+                <b>Nenhum perfil cadastrado.</b>
+            </div>
+        @endif
     </div>
 @stop

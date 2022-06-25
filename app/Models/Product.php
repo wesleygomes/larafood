@@ -30,6 +30,24 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    /**
+     * Categories not linked with this product
+     */
+    public function categoriesAvailable($filter = null)
+    {
+
+        $categories = Category::whereNotIn('categories.id', function ($query) {
+            $query->select('category_product.category_id');
+            $query->from('category_product');
+            $query->whereRaw("category_product.product_id={$this->id}");
+        })
+            ->when($filter, function ($query, $vl) {
+                $query->where('categories.name', 'LIKE', "%{$vl}%");
+            })->paginate();
+
+        return $categories;
+    }
+
 
     public function search($filter = null)
     {

@@ -18,3 +18,19 @@
         </div>
     </div>
 @endsection
+@section('js')
+    
+    <script src="{{ asset('js/maskMoney.js') }}" type="text/javascript"></script>
+
+    <script>
+        $(function() {
+            $('#price').maskMoney({
+                prefix: 'R$ ',
+                allowNegative: true,
+                thousands: '.',
+                decimal: '.',
+                affixesStay: false
+            });
+        })
+    </script>
+@stop

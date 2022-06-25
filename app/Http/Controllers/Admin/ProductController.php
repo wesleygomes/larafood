@@ -126,8 +126,8 @@ class ProductController extends Controller
             }
 
             $product->update($data);
-            alert()->success('Sucesso', 'Producto atualizado com sucesso')->toToast();
-            return redirect()->route('Products.index');
+            alert()->success('Sucesso', 'Produto atualizado com sucesso')->toToast();
+            return redirect()->route('products.index');
         } catch (Throwable $e) {
             alert()->error('Erro', 'Algo deu errado, tente novamente');
             return redirect()->back();
@@ -140,10 +140,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
 
-        $product = $this->repository->active()->where('id', $id)->first();
+        $product = $this->repository->active()->where('uuid', $uuid)->first();
 
         if (!$product)
             return redirect()->back();
@@ -155,8 +155,9 @@ class ProductController extends Controller
             }
 
             $product->delete();
-            alert()->success('Sucesso', 'Producto deletado com sucesso')->toToast();
-            return redirect()->route('Products.index');
+
+            alert()->success('Sucesso', 'Produto deletado com sucesso')->toToast();
+            return redirect()->route('products.index');
         } catch (Throwable $th) {
             alert()->error('Erro', 'Algo deu errado, tente novamente')->toToast();
             return redirect()->back();

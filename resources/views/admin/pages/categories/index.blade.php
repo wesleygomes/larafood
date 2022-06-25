@@ -13,6 +13,7 @@
 
 @section('content')
     <div class="card">
+        @if ($categories->count() > 0)
         <div class="card-header">
             <form action="{{ route('categories.search') }}" method="POST" class="form form-inline">
                 @csrf
@@ -56,5 +57,10 @@
                 {!! $categories->links() !!}
             @endif
         </div>
+        @else
+            <div class="card-header">
+                <strong>Nenhuma categoria cadastrada.</strong> 
+            </div>
+        @endif
     </div>
 @stop

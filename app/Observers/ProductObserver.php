@@ -16,7 +16,7 @@ class ProductObserver
     public function creating(Product $product)
     {
         $product->uuid = Str::uuid($product->uuid);
-        $product->flag = Str::slug($product->name);
+        $product->flag = Str::slug($product->title);
     }
 
     /**
@@ -27,6 +27,6 @@ class ProductObserver
      */
     public function updating(Product $product)
     {
-        $product->flag = Str::slug($product->name);
+        $product->flag = Str::slug($product->title);
     }
 }
