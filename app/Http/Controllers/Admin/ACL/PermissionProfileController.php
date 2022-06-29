@@ -69,7 +69,7 @@ class PermissionProfileController extends Controller
         }
 
         try {
-            $profile->permissions()->sync($request->permissions);
+            $profile->permissions()->attach($request->permissions);
             alert()->success('Sucesso', 'Vínculo adicionado com sucesso!')->toToast();
             return redirect()->route('profiles.permissions', $profile->id);
         } catch (\Throwable $th) {

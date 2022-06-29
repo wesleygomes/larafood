@@ -70,7 +70,7 @@ class PlanProfileController extends Controller
         }
 
         try {
-            $plan->profiles()->sync($request->profiles);
+            $plan->profiles()->attach($request->profiles);
             alert()->success('Sucesso', 'Vínculo adicionado com sucesso')->toToast();
             return redirect()->route('plans.profiles', $plan->id);
         } catch (\Throwable $th) {
