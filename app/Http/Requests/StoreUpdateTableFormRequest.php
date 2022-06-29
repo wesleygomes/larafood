@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateProductFormRequest extends FormRequest
+class StoreUpdateTableFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +25,15 @@ class StoreUpdateProductFormRequest extends FormRequest
     {
         $id = $this->segment(3);
 
-        $rules = [
-            'title' => [
+        return [
+            'identify' => [
                 'required',
                 'min:3',
                 'max:255',
-                "unique:products,title,{$id},id",
-                //new UniqueTenant('products', $id),
+                "unique:tables,identify,{$id},id"
+                //new UniqueTenant('tables', $id),
             ],
-            'description' => ['required', 'min:3', 'max:500'],
-            'image' => ['required', 'image'],
-            'price' => "required|regex:/^\d+(\.\d{1,2})?$/",
+            'description' => ['required', 'min:3', 'max:1000'],
         ];
-
-        if ($this->method() == 'PUT') {
-            $rules['image'] = ['nullable', 'image'];
-        }
-
-        return $rules;
     }
 }

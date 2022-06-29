@@ -45,7 +45,7 @@
                                 </td>
                                 <td>{{ $product->title }}</td>
                                 <td style="width=10px;">
-                                    {{-- <a href="{{ route('products.categories', $product->id) }}" class="btn btn-warning" title="Categorias"><i class="fas fa-layer-group"></i></a> --}}
+                                    <a href="{{ route('products.categories', $product->id) }}" class="btn btn-warning" title="Categorias"><i class="fas fa-layer-group"></i></a>
                                     <a href="{{ route('products.edit', $product->uuid) }}" class="btn btn-info">Edit</a>
                                     <a href="{{ route('products.show', $product->uuid) }}"
                                         class="btn btn-warning">VER</a>

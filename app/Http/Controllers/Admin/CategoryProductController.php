@@ -76,7 +76,7 @@ class CategoryProductController extends Controller
         }
     }
 
-    public function detachCategoriesProduct($idProduct, $idCategory)
+    public function detachCategoryProduct($idProduct, $idCategory)
     {
         $product = $this->product->find($idProduct);
         $category = $this->category->find($idCategory);

@@ -9,8 +9,10 @@ use App\Http\Controllers\Admin\{
     UserController,
     PlanController,
     ProductController,
+    TableController,
 };
 use App\Http\Controllers\Site\SiteController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -29,6 +31,11 @@ Route::prefix('admin')->group(base_path('routes/details_plans.php'));
 Route::prefix('admin')->group(base_path('routes/permissions_profiles.php'));
 
 /**
+ * Route Categories x Product
+ */
+Route::prefix('admin')->group(base_path('routes/categories_products.php'));
+
+/**
  * Route Plan x Profile
  */
 Route::prefix('admin')->group(base_path('routes/plan_profiles.php'));
@@ -42,6 +49,14 @@ Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
 
 Route::prefix('admin')->middleware('auth')->group(function () {
 
+
+    /**
+     * Route Tables
+     *
+     */
+
+    Route::any('tables/search', [TableController::class, 'search'])->name('tables.search');
+    Route::resource('tables', TableController::class);
 
     /**
      * Route Products
@@ -87,6 +102,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
      * Route Home
      */
     Route::get('/', [PlanController::class, 'index'])->name('admin.index');
+});
+
+Route::get('teste-acl', function(){
+    dd(auth()->user()->isAdmin());
 });
 
 Route::get('/plan/{url}', [SiteController::class, 'plan'])->name('plan.subscription');

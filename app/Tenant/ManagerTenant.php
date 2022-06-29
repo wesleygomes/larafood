@@ -20,4 +20,9 @@ class ManagerTenant
     {
         return in_array(auth()->user()->email, config('tenant.admins'));
     }
+
+    public function isNotAdmin(): bool
+    {
+        return !in_array(auth()->user()->email, config('tenant.admins'));
+    }
 }

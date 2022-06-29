@@ -233,7 +233,7 @@ return [
         [
             'text' => 'Perfis',
             'url'  => 'admin/profiles',
-            'icon' => 'fas fa-address-card'
+            'icon' => 'fas fa-address-book'
         ],
         [
             'text' => 'Permissões',
@@ -253,7 +253,12 @@ return [
         [
             'text' => 'Produtos',
             'url'  => 'admin/products',
-            'icon' => 'fas fa-cart-arrow-down'
+            'icon' => 'fas fa-hamburger'
+        ],
+        [
+            'text' => 'Mesas',
+            'url'  => 'admin/tables',
+            'icon' => 'fas fa-tablet'
         ],
 
     ],
