@@ -14,7 +14,6 @@ class Tenant extends Model
         'subscription', 'expires_at', 'subscription_id', 'subscription_active', 'subscription_suspended',
     ];
 
-
     public function users()
     {
         return $this->hasMany(User::class);
@@ -24,5 +23,17 @@ class Tenant extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function search($filter = null)
+    {
+
+        $results = $this->when($filter, function ($query, $vl) {
+            $query->where('name', 'LIKE', '%' .  $vl . '%');
+            $query->orWhere('email', 'LIKE', "%{$vl}%");
+            $query->orWhere('cnpj', 'LIKE', "%{$vl}%");
+        })->latest()->paginate();
+
+        return $results;
     }
 }

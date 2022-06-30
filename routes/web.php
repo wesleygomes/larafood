@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\{
     PlanController,
     ProductController,
     TableController,
+    TenantController,
 };
 use App\Http\Controllers\Site\SiteController;
 use App\Models\User;
@@ -48,6 +49,15 @@ Route::prefix('admin')->group(base_path('routes/profiles_permissions.php'));
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+
+    /**
+     * Route Tenants
+     *
+     */
+
+    Route::any('tenants/search', [TenantController::class, 'search'])->name('tenants.search');
+    Route::resource('tenants', TenantController::class);
 
 
     /**
@@ -104,9 +114,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [PlanController::class, 'index'])->name('admin.index');
 });
 
-Route::get('teste-acl', function(){
-    dd(auth()->user()->isAdmin());
-});
+// Route::get('teste-acl', function(){
+//     dd(auth()->user()->isAdmin());
+// });
 
 Route::get('/plan/{url}', [SiteController::class, 'plan'])->name('plan.subscription');
 Route::get('/', [SiteController::class, 'index'])->name('site.index');

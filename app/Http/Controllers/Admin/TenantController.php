@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateTenantFormRequest;
 use App\Models\Plan;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class TenantController extends Controller
 {
@@ -16,6 +19,8 @@ class TenantController extends Controller
     {
         $this->repository = $tenant;
         $this->plan = $plan;
+
+        $this->middleware(['can:tenants']);
     }
 
     /**
@@ -23,14 +28,11 @@ class TenantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($urlPlan)
+    public function index()
     {
-        if (!$plan = $this->plan->where('url', $urlPlan)->first()) {
-            return redirect()->back();
-        }
+        $tenants = $this->repository->latest()->paginate();
 
-        $tenants = $plan->tenats()->latest()->paginate();
-        return view('admin.pages.plans.details.index', compact('plan', 'details'));
+        return view('admin.pages.tenants.index', compact('tenants'));
     }
 
     /**
@@ -40,18 +42,33 @@ class TenantController extends Controller
      */
     public function create()
     {
-        //
+        $plans = $this->plan->all();
+        return view('admin.pages.tenants.create', compact('plans'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreUpdateTenantFormRequest  $request
+     * @return App\Http\Requests\StoreUpdateTenantFormRequest
      */
-    public function store(Request $request)
+    public function store(StoreUpdateTenantFormRequest $request)
     {
-        //
+        try {
+
+            $data = $request->all();
+
+            if ($request->hasFile('logo') && $request->logo->isValid()) {
+                $data['logo'] = $request->logo->store("tenants/{$data['name']}");
+            }
+
+            $this->repository->create($data);
+            alert()->success('Sucesso', 'Empresa cadastrada com sucesso')->toToast();
+            return redirect()->route('tenants.index');
+        } catch (\Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -60,9 +77,14 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        //
+        $tenant = $this->repository->with('plan')->where('uuid', $uuid)->first();
+
+        if (!$tenant)
+            return redirect()->back();
+
+        return view('admin.pages.tenants.show', compact('tenant'));
     }
 
     /**
@@ -71,21 +93,48 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        //
+        $tenant = $this->repository->where('uuid', $uuid)->first();
+
+        if (!$tenant)
+            return redirect()->back();
+
+        return view('admin.pages.tenants.edit', compact('tenant'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\StoreUpdateTenantFormRequest  $request
+     * @return App\Http\Requests\StoreUpdateTenantFormRequest
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateTenantFormRequest $request, $uuid)
     {
-        //
+        $tenant = $this->repository->where('uuid', $uuid)->first();
+
+        if (!$tenant)
+            return redirect()->back();
+
+        try {
+            $data = $request->all();
+
+            if ($request->hasFile('logo') && $request->logo->isValid()) {
+
+                if (Storage::exists($tenant->logo)) {
+                    Storage::delete($tenant->logo);
+                }
+
+                $data['logo'] = $request->image->store("tenants/{$tenant->uuid}");
+            }
+
+            $tenant->update($data);
+            alert()->success('Sucesso', 'Empresa atualizada com sucesso')->toToast();
+            return redirect()->route('tenants.index');
+        } catch (Throwable $e) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -94,8 +143,34 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        //
+        $tenant = $this->repository->where('uuid', $uuid)->first();
+
+        if (!$tenant)
+            return redirect()->back();
+
+        try {
+
+            if (Storage::exists($tenant->image)) {
+                Storage::delete($tenant->image);
+            }
+
+            $tenant->delete();
+
+            alert()->success('Sucesso', 'Empresa deletada com sucesso')->toToast();
+            return redirect()->route('tenants.index');
+        } catch (Throwable $th) {
+            alert()->error('Erro', 'Algo deu errado, tente novamente')->toToast();
+            return redirect()->back();
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->except('_token');
+
+        $tenants = $this->repository->search($request->search);
+        return view('admin.pages.tenants.index', compact('tenants', 'filters'));
     }
 }
