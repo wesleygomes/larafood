@@ -13,7 +13,7 @@ class StoreUpdateTenantFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,23 @@ class StoreUpdateTenantFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        $id = $this->segment(3);
+
+        $rules = [
+            'name' => ['required', 'min:3', 'max:255', "unique:tenants,name,{$id},id"],
+            'email' => ['required', 'min:3', 'max:255', "unique:tenants,email,{$id},id"],
+            'cnpj' => ['required', 'digits:14', "unique:tenants,cnpj,{$id},id"],
+            'logo' => ['nullable', 'image'],
+            'active' => ['required', 'in:Y,N'],
+
+            // subscription
+            'subscription' => ['nullable', 'date'],
+            'expires_at' => ['nullable', 'date'],
+            'subscription_id' => ['nullable', 'max:255'],
+            'subscription_active' => ['nullable', 'boolean'],
+            'subscription_suspended' => ['nullable', 'boolean'],
         ];
+
+        return $rules;
     }
 }

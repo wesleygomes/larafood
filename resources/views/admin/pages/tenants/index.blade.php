@@ -26,6 +26,7 @@
                     <tr>
                         <th width="100">Imagem</th>
                         <th>Nome</th>
+                        <th>Plano</th>
                         <th width="150">Ações</th>
                     </tr>
                 </thead>
@@ -36,9 +37,10 @@
                                 <img src="{{ url("storage/{$tenant->logo}") }}" alt="{{ $tenant->title }}" style="max-width: 90px;">
                             </td>
                             <td>{{ $tenant->name }}</td>
+                            <td>{{ $tenant->plan->name }}</td>
                             <td style="width=10px;">
-                                <a href="{{ route('tenants.edit', $tenant->uuid) }}" class="btn btn-info">Edit</a>
-                                <a href="{{ route('tenants.show', $tenant->uuid) }}" class="btn btn-warning">VER</a>
+                                <a href="{{ route('tenants.edit', $tenant->id) }}" class="btn btn-info">Edit</a>
+                                <a href="{{ route('tenants.show', $tenant->id) }}" class="btn btn-warning">VER</a>
                             </td>
                         </tr>
                     @endforeach
