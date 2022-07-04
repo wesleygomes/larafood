@@ -3,6 +3,7 @@
 @section('title', "Editar a empresa {$tenant->name}")
 
 @section('content_header')
+{{ Breadcrumbs::render('tenants.edit', $tenant->name) }}
     <h1>Editar a empresa {{ $tenant->name }}</h1>
 @stop
 
@@ -17,3 +18,4 @@
         </div>
     </div>
 @endsection
+

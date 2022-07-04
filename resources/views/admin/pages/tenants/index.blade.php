@@ -3,12 +3,8 @@
 @section('title', 'Empresas')
 
 @section('content_header')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="{{ route('tenants.index') }}" class="active">Empresas</a></li>
-    </ol>
-
-    <h1>Empresas</h1>
+    {{ Breadcrumbs::render('tenants') }}
+    <h1>Empresas <a href="{{ route('tenants.create') }}" class="btn btn-dark">ADD</a></h1>
 @stop
 
 @section('content')

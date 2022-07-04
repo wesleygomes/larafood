@@ -97,7 +97,8 @@ class TenantController extends Controller
             return redirect()->back();
         }
 
-        return view('admin.pages.tenants.edit', compact('tenant'));
+        $plans = Plan::all();
+        return view('admin.pages.tenants.edit', compact('tenant', 'plans'));
     }
 
 

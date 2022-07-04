@@ -3,6 +3,7 @@
 @section('title', 'Cadastrar Novo Tenant')
 
 @section('content_header')
+    {{ Breadcrumbs::render('tenants.create') }}
     <h1>Cadastrar Novo Tenant</h1>
 @stop
 
@@ -10,7 +11,6 @@
     <div class="card">
         <div class="card-body">
             <form action="{{ route('tenants.store') }}" class="form" method="POST" enctype="multipart/form-data">
-
                 @include('admin.pages.tenants._partials.form')
             </form>
         </div>
@@ -24,6 +24,7 @@
     <script>
         $(function() {
             $(".cnpj").mask("99.999.999/9999-99");
+            //$("#plan_id").val( "{{$tenant->plan_id}}" ).trigger("change");
         });
     </script>
 @stop

@@ -3,6 +3,7 @@
 @section('title', "Detalhes da produto {$tenant->name}")
 
 @section('content_header')
+{{ Breadcrumbs::render('tenants.show', $tenant->name) }}
     <h1>Detalhes da empresa <b>{{ $tenant->name }}</b></h1>
 @stop
 

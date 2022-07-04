@@ -50,6 +50,31 @@ Breadcrumbs::for('plans.edit', function ($trail, $name) {
     $trail->push($name, route('plans.edit', $name));
 });
 
+
+// Dashboard > Tenants
+Breadcrumbs::for('tenants', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('Empresas', route('tenants.index'));
+});
+
+// Dashboard > Tenants > Create
+Breadcrumbs::for('tenants.create', function ($trail) {
+    $trail->parent('tenants');
+    $trail->push('Cadastrar', route('tenants.create'));
+});
+
+// Dashboard > Tenants > Show
+Breadcrumbs::for('tenants.show', function ($trail, $name) {
+    $trail->parent('tenants');
+    $trail->push($name, route('tenants.show', $name));
+});
+
+// Dashboard > Tenants > Edit
+Breadcrumbs::for('tenants.edit', function ($trail, $name) {
+    $trail->parent('tenants');
+    $trail->push($name, route('tenants.edit', $name));
+});
+
 /**
  * Detalhes do plano
  */

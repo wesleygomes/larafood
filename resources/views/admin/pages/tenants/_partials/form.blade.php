@@ -6,7 +6,7 @@
     <div class="col-md-4">
         <div class="form-group">
             <label>* Plano:</label>
-            <select name="plan_id" class="form-control">
+            <select id="plan_id" name="plan_id" class="form-control">
                 <option value="" selected>Selecione plano</option>
                 @foreach ($plans as $plan)
                     <option value="{{ $plan->id }}">{{ $plan->name }}</option>
