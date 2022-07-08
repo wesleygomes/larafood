@@ -150,7 +150,7 @@ class CategoryController extends Controller
         $filters = $request->only('filter');
 
         $categories = $this->repository->search($request->search);
-        
+
         return view('admin.pages.categories.index', compact('categories', 'filters'));
     }
 }

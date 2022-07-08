@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ACL\{
     PermissionController,
     ProfileController,
+    RoleController,
 };
 use App\Http\Controllers\Admin\{
     CategoryController,
@@ -13,7 +14,6 @@ use App\Http\Controllers\Admin\{
     TenantController,
 };
 use App\Http\Controllers\Site\SiteController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -30,6 +30,11 @@ Route::prefix('admin')->group(base_path('routes/details_plans.php'));
  * Route Permission x Profile
  */
 Route::prefix('admin')->group(base_path('routes/permissions_profiles.php'));
+
+/**
+ * Route Permission x Role
+ */
+Route::prefix('admin')->group(base_path('routes/permissions_roles.php'));
 
 /**
  * Route Categories x Product
@@ -84,6 +89,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::any('categories/search', [CategoryController::class, 'search'])->name('categories.search');
     Route::resource('categories', CategoryController::class);
+
+    /**
+     * Route Roles
+     *
+     */
+
+    Route::any('roles/search', [RoleController::class, 'search'])->name('roles.search');
+    Route::resource('roles', RoleController::class);
 
     /**
      * Route Users
