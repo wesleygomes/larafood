@@ -44,6 +44,15 @@ class User extends Authenticatable
         //'active' => UserStatus::_default(),
     ];
 
+
+    /**
+     * Get Users
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     /**
      * Scope a query to only users by tenant
      *
