@@ -26,6 +26,13 @@ Route::prefix('admin')->middleware('auth')->group(base_path('routes/plans.php'))
  */
 Route::prefix('admin')->group(base_path('routes/details_plans.php'));
 
+
+/**
+ * Role x User
+ */
+Route::prefix('admin')->group(base_path('routes/roles_user.php'));
+
+
 /**
  * Route Permission x Profile
  */

@@ -35,11 +35,13 @@ class RoleUserController extends Controller
 
     public function roles($idUser)
     {
-        if (!$users = $this->user->find($idUser)) {
+        $user = $this->user->find($idUser);
+
+        if (!$user) {
             return redirect()->back();
         }
 
-        $roles = $users->roles()->paginate();
+        $roles = $user->roles()->paginate();
 
         return view('admin.pages.users.roles.roles', compact('user', 'roles'));
     }
@@ -54,10 +56,10 @@ class RoleUserController extends Controller
 
         $roles = $user->rolesAvailable($request->filter);
 
-        return view('admin.pages.users.roles.available', compact('role', 'users', 'filters'));
+        return view('admin.pages.users.roles.available', compact('roles', 'user', 'filters'));
     }
 
-    public function attachUsersRole(Request $request, $idUser)
+    public function attachRolesUser(Request $request, $idUser)
     {
         if (!$user = $this->user->find($idUser)) {
             return redirect()->back();
@@ -80,17 +82,17 @@ class RoleUserController extends Controller
         }
     }
 
-    public function detachUserRole($idRole, $idUser)
+    public function detachRoleUser($idUser, $idRole)
     {
-        $role = $this->role->find($idRole);
         $user = $this->user->find($idUser);
+        $role = $this->role->find($idRole);
 
-        if (!$role || !$user) {
+        if (!$user || !$role) {
             return redirect()->back();
         }
 
         try {
-            $user->roles()->detach($user);
+            $user->roles()->detach($role);
             alert()->success('Sucesso', 'Vínculo removido com sucesso!')->toToast();
             return redirect()->route('users.roles', $user->id);
         } catch (\Throwable $th) {

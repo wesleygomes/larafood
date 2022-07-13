@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'acitve', 'tenant_id',
+        'name', 'email', 'password', 'active', 'tenant_id',
     ];
 
     /**
@@ -46,11 +46,29 @@ class User extends Authenticatable
 
 
     /**
-     * Get Users
+     * Get Roles
      */
-    public function users()
+    public function roles()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Roles not linked with this user
+     */
+    public function rolesAvailable($filter = null)
+    {
+        $roles = Role::whereNotIn('roles.id', function ($query) {
+            $query->select('role_user.role_id');
+            $query->from('role_user');
+            $query->whereRaw("role_user.user_id={$this->id}");
+        })
+            ->when($filter, function ($query, $vl) {
+                $query->where('permissions.name', 'LIKE', "%{$vl}%");
+            })
+            ->paginate();
+
+        return $roles;
     }
 
     /**
