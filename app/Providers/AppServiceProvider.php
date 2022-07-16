@@ -2,16 +2,21 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
-use App\Models\Plan;
-use App\Models\Product;
-use App\Models\Table;
-use App\Models\Tenant;
-use App\Observers\CategoryObserver;
-use App\Observers\PlanObserver;
-use App\Observers\ProductObserver;
-use App\Observers\TableObserver;
-use App\Observers\TenantObserver;
+use App\Models\{
+    Category,
+    Plan,
+    Product,
+    Table,
+    Tenant
+};
+use App\Observers\{
+    CategoryObserver,
+    PlanObserver,
+    ProductObserver,
+    TableObserver,
+    TenantObserver
+};
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
