@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TenantResource;
-use App\Services\TenantService;
+use App\Http\Requests\Api\TenantFormRequest;
+use App\Services\CategoryService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class TenantController extends Controller
+class CategoryController extends Controller
 {
 
-    private $tenantService;
+    private $categoryService;
 
-    public function __construct(TenantService $tenant)
+    public function __construct(CategoryService $category)
     {
-        $this->tenantService = $tenant;
+        $this->categoryService = $category;
     }
 
 
@@ -25,17 +25,14 @@ class TenantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): JsonResponse
+    public function categoriesByTenant(TenantFormRequest $request): JsonResponse
     {
         try {
-            $per_page = (int) $request->get('per_page', 15);
-            $name = $request->get('name');
+            $categories = $this->categoryService->getCategoriesByTenant($request->token_company);
 
-            $tenants = TenantResource::collection($this->tenantService->getAllTenants($per_page, $name));
-
-            return response()->json([$tenants], 200);
+            return response()->json([$categories], 200);
         } catch (Exception $ex) {
-            return response()->json(['error' => true, 'message' => $ex->getMessage()], 500);
+            return response()->json(['error' => true, 'message' => 'Categorias não encontradas'], 404);
         }
     }
 
@@ -56,16 +53,9 @@ class TenantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($uuid)
+    public function show($id)
     {
-        try {
-
-            $tenant = new TenantResource($this->tenantService->getTenantByUuid($uuid));
-
-            return response()->json([$tenant], 200);
-        } catch (Exception $ex) {
-            return response()->json(['error' => true, 'message' => 'Empresa não encontrada'], 404);
-        }
+        //
     }
 
     /**
